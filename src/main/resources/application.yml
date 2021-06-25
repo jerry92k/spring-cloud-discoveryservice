@@ -48,5 +48,11 @@ spring:
                 baseMessage: This is logging filter
                 preLogger: true
                 postLogger: true
-#            - AddRequestHeader=second-request, second-request-header2
-#            - AddResponseHeader=second-response, second-request-header2
+        - id: catalog-service
+          uri: lb://catalog-service
+          predicates:
+            - Path=/catalog-service/**
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/order-service/**
