@@ -12,7 +12,7 @@ spring:
 #      path: /h2-console
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:~/test
+    url: jdbc:h2:tcp://localhost/~/test
     username: sa
   jpa:
     hibernate:
@@ -39,3 +39,12 @@ eureka:
 
 greeting:
   message: Welcome to e-commerce service
+
+logging:
+  level:
+    com.example.userservice: DEBUG
+
+token:
+  # 60*60*24*1000(ms)
+  expiration_time: 86400000
+  secret: user_token
