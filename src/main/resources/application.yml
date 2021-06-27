@@ -11,6 +11,11 @@ eureka:
 spring:
   application:
     name: apigateway-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
   cloud:
     gateway:
       default-filters:
@@ -28,7 +33,6 @@ spring:
 #            - Path=/user-service/**
         - id: user-service
           uri: lb://user-service
-            #uri: http://localhost:8081/
           predicates:
             - Path=/user-service/login
             - Method=POST
@@ -37,16 +41,22 @@ spring:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://user-service
-          #uri: http://localhost:8081/
           predicates:
-            - Path=/user-service/users
+            - Path=/user-service/users/
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://user-service
-          #uri: http://localhost:8081/
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://user-service
           predicates:
             - Path=/user-service/**
             - Method=GET
@@ -54,6 +64,14 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: first-service
           # lb: 를 사용하면 eureka 서버에서 application name으로 서비스를 이용
           uri: lb://my-first-service
@@ -87,3 +105,9 @@ spring:
 
 token:
   secret: user_token
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,beans,httptrace,busrefresh
