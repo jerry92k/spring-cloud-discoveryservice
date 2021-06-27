@@ -30,9 +30,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-//        http.authorizeRequests().antMatchers("/users/**").permitAll();
+        http.authorizeRequests().antMatchers("/actuator/**").permitAll(); // actuator로 호출하는 것은 인증 과정 안 거쳐도 되게 함
         http.authorizeRequests().antMatchers("/**")
-                .hasIpAddress("192.168.123.104")
+                .hasIpAddress(env.getProperty("gateway.ip"))
                 .and()
                 .addFilter(getAuthenticationFilter());
                 
