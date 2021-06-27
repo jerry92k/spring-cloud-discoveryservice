@@ -1,0 +1,26 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      server:
+        # native:
+        #  search-locations: file://${user.home}/Desktop/Work/native-file-repo
+        git:
+          uri: https://github.com/jerry92k/spring-cloud-discoveryservice
+          # branch 설정
+          default-label: config-repo
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,busrefresh
