@@ -10,7 +10,10 @@ token:
 
 gateway:
   ip: 192.168.123.107
+
 order_service:
   url: http://order-service/order-service/%s/orders
+  exception:
+    oders_is_empty: "there is no orders by a user"
   # ip port를 사용하는 대신 eureka에 등록되 msa 이름을 사용
   # url: http://127.0.0.1:8000/order-service/%s/orders
