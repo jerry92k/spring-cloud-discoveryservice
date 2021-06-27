@@ -9,6 +9,6 @@ token:
   secret: user_token_userservice
 
 gateway:
-  ip:192.168.123.107
+  ip: 192.168.123.107
 order_service:
   url: http://127.0.0.1:8000/order-service/%s/orders
