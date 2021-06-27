@@ -44,13 +44,12 @@ public class OrderController {
         //UserDto userDto = mapper.map(user,UserDto.class);
         OrderDto resOrderDto= orderService.createOrder(mapper.map(orderDto, OrderDto.class));
 
-
         ResponseOrder responseOrder=mapper.map(resOrderDto,ResponseOrder.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseOrder);
     }
 
     @GetMapping("/{userId}/orders")
-    public ResponseEntity<List<ResponseOrder>> createOrder(@PathVariable("userId") String userId){
+    public ResponseEntity<List<ResponseOrder>> getOrders(@PathVariable("userId") String userId){
         Iterable<OrderEntity> orderEntities=orderService.getOrdersByUserId(userId);
         List<ResponseOrder> responseOrders=new ArrayList<>();
         orderEntities.forEach(v->{
