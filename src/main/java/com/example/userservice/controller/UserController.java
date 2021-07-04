@@ -7,6 +7,7 @@ import com.example.userservice.vo.Greeting;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
 import com.netflix.discovery.converters.Auto;
+import io.micrometer.core.annotation.Timed;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class UserController {
         this.userService=userService;
     }
 
+    @Timed(value="users.status",longTask=true)
     @GetMapping("/health_check")
     public String status(){
 
@@ -46,6 +48,7 @@ public class UserController {
 
     }
 
+    @Timed(value = "users.welcome", longTask=true)
     @GetMapping("/welcome")
     public String welcome(){
         // 1번방법

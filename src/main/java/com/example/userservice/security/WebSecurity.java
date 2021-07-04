@@ -32,10 +32,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/actuator/**").permitAll(); // actuator로 호출하는 것은 인증 과정 안 거쳐도 되게 함
         http.authorizeRequests().antMatchers("/**")
-                .hasIpAddress(env.getProperty("gateway.ip"))
+                .permitAll()
                 .and()
+    //            .hasIpAddress(env.getProperty("gateway.ip"))
+      //          .and()
                 .addFilter(getAuthenticationFilter());
-                
         http.headers().frameOptions().disable();
     }
 
