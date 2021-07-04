@@ -42,7 +42,7 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/user-service/users/
+            - Path=/user-service/users
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
@@ -64,36 +64,6 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/user-service/actuator/**
-            - Method=GET,POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-        - id: first-service
-          # lb: 를 사용하면 eureka 서버에서 application name으로 서비스를 이용
-          uri: lb://my-first-service
-          #uri: http://localhost:8081/
-          predicates:
-            - Path=/first-service/**
-          filters:
-            - CustomFilter
-#            - AddRequestHeader=first-request, first-request-header2
-#            - AddResponseHeader=first-response, first-request-header2
-        - id: second-service
-          uri: lb://my-second-service
-          #uri: http://localhost:8082/
-          predicates:
-            - Path=/second-service/**
-          filters:
-            - name: CustomFilter
-            - name: LoggingFilter
-              args:
-                baseMessage: This is logging filter
-                preLogger: true
-                postLogger: true
         - id: catalog-service
           uri: lb://catalog-service
           predicates:
@@ -101,8 +71,15 @@ spring:
         - id: order-service
           uri: lb://order-service
           predicates:
+            - Path=/order-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}
+        - id: order-service
+          uri: lb://order-service
+          predicates:
             - Path=/order-service/**
-
 token:
   secret: user_token
 
@@ -110,4 +87,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh,health,beans,httptrace,busrefresh
+        include: refresh,health,beans,httptrace,busrefresh,info,prometheus,metrics
