@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost:8999/~/test
+    url: jdbc:h2:tcp://h2/~/test
     username: sa
 
 token:
